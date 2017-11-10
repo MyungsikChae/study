@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="AKKA" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> [AKKA] [%d{HH:mm:ss:SSS}] [%highlight(%-5level)]  %logger{36}: %msg%n</pattern>
+            <!--<pattern> [AKKA] [%d{yyyy-MM-dd HH:mm:ss:SSS}] [%highlight(%-5level)]  %logger{36}: %msg%n</pattern>-->
+        </encoder>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> [STDO] [%d{HH:mm:ss:SSS}] [%highlight(%-5level)]  %logger{36}: %msg%n</pattern>
+            <!--<pattern> [STDO] [%d{yyyy-MM-dd HH:mm:ss:SSS}] [%highlight(%-5level)]  %logger{36}: %msg%n</pattern>-->
+        </encoder>
+    </appender>
+
+    <logger name="akka.persistence.hazelcast" level="info" additivity="false">
+        <appender-ref ref="AKKA" />
+    </logger>
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.noctarius.snowcast:snowcast:2.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/noctarius/snowcast/snowcast/2.0.0-SNAPSHOT/snowcast-2.0.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/noctarius/snowcast/snowcast/2.0.0-SNAPSHOT/snowcast-2.0.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/noctarius/snowcast/snowcast/2.0.0-SNAPSHOT/snowcast-2.0.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

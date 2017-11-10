@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/akka-cluster-test.iml" filepath="$PROJECT_DIR$/akka-cluster-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/game/game.iml" filepath="$PROJECT_DIR$/game/game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager/manager.iml" filepath="$PROJECT_DIR$/manager/manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/network/network.iml" filepath="$PROJECT_DIR$/network/network.iml" />
+      <module fileurl="file://$PROJECT_DIR$/player/player.iml" filepath="$PROJECT_DIR$/player/player.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scheduler/scheduler.iml" filepath="$PROJECT_DIR$/scheduler/scheduler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/table/table.iml" filepath="$PROJECT_DIR$/table/table.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,29 @@
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.8.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <group>
+        <name>akka-dev-hazelcast</name>
+        <password>dev-pass</password>
+    </group>
+
+    <map name="GAMEDATA_INFO">
+        <map-store enabled="true" initial-mode="EAGER">
+            <class-name>com.nsuslab.test.akkaclustertest.common.hazelcast.mapper.GameDataMapStore</class-name>
+            <write-delay-seconds>0</write-delay-seconds>
+            <write-batch-size>1</write-batch-size>
+            <write-coalescing>false</write-coalescing>
+        </map-store>
+    </map>
+
+    <serialization>
+        <serializers>
+            <serializer type-class="com.nsuslab.test.akkaclustertest.common.database.entity.GameDataInfo"
+                        class-name="com.nsuslab.test.akkaclustertest.common.hazelcast.serializer.GameDataInfoSerializer"/>
+        </serializers>
+    </serialization>
+
+    <network>
+        <port auto-increment="true" port-count="100">5900</port>
+    </network>
+
+</hazelcast>

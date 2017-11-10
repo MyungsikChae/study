@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="hibernate.connection.tinyInt1isBit">false</property>
+        <property name="hibernate.physical_naming_strategy">com.nsuslab.test.akkaclustertest.common.database.jpa.PhysicalNamingStrategy</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql_comments">true</property>
+
+        <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
+        <property name="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</property>
+        <property name="hibernate.hikari.dataSource.url">jdbc:mysql://localhost:3306/gameserver?tinyInt1isBit=false&amp;useSSL=false
+        </property>
+        <property name="hibernate.hikari.dataSource.user">gameserver25</property>
+        <property name="hibernate.hikari.dataSource.password">q1w2e3@#</property>
+        <property name="hibernate.hikari.dataSource.cachePrepStmts">false</property>
+        <property name="hibernate.hikari.minimumIdle">1</property>
+        <property name="hibernate.hikari.maximumPoolSize">10</property>
+        <property name="hibernate.hikari.idleTimeout">60000</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSize">250</property>
+        <property name="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">2048</property>
+        <property name="hibernate.hikari.leakDetectionThreshold">30000</property>
+    </session-factory>
+</hibernate-configuration>
