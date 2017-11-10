@@ -1,17 +1,15 @@
 package com.nsuslab.test.akkaclustertest.scheduler.service
 
-import javax.management.remote.JMXConnectorFactory
-import javax.management.remote.JMXServiceURL
 
 import akka.cluster.Cluster
 import akka.actor.{Actor, ActorLogging}
 import akka.cluster.ClusterEvent._
-import akka.cluster.sharding.ClusterSharding
-import akka.cluster.singleton.{ClusterSingletonManager, ClusterSingletonManagerSettings, ClusterSingletonProxy, ClusterSingletonProxySettings}
 import com.hazelcast.core.{Hazelcast, IMap}
-import com.nsuslab.test.akkaclustertest.common.database.entity.GameDataInfo
 import com.nsuslab.test.akkaclustertest.common.message._
-import com.nsuslab.test.akkaclustertest.common.shard.GameSharding
+import java.lang.management.{ManagementFactory, MemoryMXBean}
+import java.util
+import javax.management.ObjectName
+import javax.management.remote.{JMXConnectorFactory, JMXServiceURL}
 
 import scala.concurrent.ExecutionContext
 
@@ -65,6 +63,48 @@ class SchedulerService extends Actor with ActorLogging {
       log.info(" *** MemberEvent: {}", evt)
     case msg : StartSystem =>
       log.info(" *** Receive a message: {}", msg)
+      val jmxPeer = "127.0.0.1:5011"
+      val jmxUrl = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://%s/jmxrmi".format(jmxPeer))
+
+//      Map[String, AnyRef](javax.management.remote.JMXConnector.CREDENTIALS -> Array[String]("admin","q1w2e3@#"))
+
+      val jmxc = JMXConnectorFactory.connect(jmxUrl, null)
+      val connection = jmxc.getMBeanServerConnection
+
+      println("\nDomains:")
+      val domains = connection.getDomains
+      for (domain <- domains) {
+        println("\tDomain = " + domain)
+      }
+
+      import javax.management.ObjectName
+
+      println("\nMBeanServer default domain = " + connection.getDefaultDomain)
+
+      println("\nMBean count = " + connection.getMBeanCount)
+      println("\nQuery MBeanServer MBeans:")
+
+      val names = connection.queryNames(null, null)
+
+      for (name <- names.toArray) {
+        println("\tObjectName = " + name.toString)
+      }
+      val objName: ObjectName = new ObjectName("akkaclustertest.tables", {
+        import scala.collection.JavaConverters._
+        new java.util.Hashtable(
+          Map(
+            "name" -> "TableActor",
+            "type" -> "TS1509007950150-TE1"
+          ).asJava
+        )
+      })
+      println(" ** " + connection.getMBeanInfo(objName))
+      println(" ** " + connection.invoke(objName, "GetActorPath", null, null))
+
+      val memProxy = ManagementFactory.newPlatformMXBeanProxy(connection, ManagementFactory.MEMORY_MXBEAN_NAME, classOf[MemoryMXBean])
+      println("\n *** %s: %s\n".format(jmxPeer, memProxy.getHeapMemoryUsage))
+      jmxc.close()
+
 //      val shardRegion = ClusterSharding(context.system).shardRegion(GameSharding.shardName)
 //      val gameInfo: IMap[Long, GameDataInfo] = hazelcast.getMap("GAMEDATA_INFO")
 //
