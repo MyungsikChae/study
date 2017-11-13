@@ -17,7 +17,6 @@ class TableService extends Actor with ActorLogging {
     //1
     //2
     //3
-    //4
     // Do something when this node become a member-up in a cluster
   }
 
