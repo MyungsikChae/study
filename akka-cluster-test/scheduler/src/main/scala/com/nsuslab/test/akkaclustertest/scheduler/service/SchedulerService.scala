@@ -4,10 +4,9 @@ package com.nsuslab.test.akkaclustertest.scheduler.service
 import akka.cluster.Cluster
 import akka.actor.{Actor, ActorLogging}
 import akka.cluster.ClusterEvent._
-import com.hazelcast.core.{Hazelcast, IMap}
+import com.hazelcast.core.Hazelcast
 import com.nsuslab.test.akkaclustertest.common.message._
 import java.lang.management.{ManagementFactory, MemoryMXBean}
-import java.util
 import javax.management.ObjectName
 import javax.management.remote.{JMXConnectorFactory, JMXServiceURL}
 
@@ -76,8 +75,6 @@ class SchedulerService extends Actor with ActorLogging {
       for (domain <- domains) {
         println("\tDomain = " + domain)
       }
-
-      import javax.management.ObjectName
 
       println("\nMBeanServer default domain = " + connection.getDefaultDomain)
 
