@@ -14,7 +14,6 @@ class TableService extends Actor with ActorLogging {
   val cluster = Cluster(system)
 
   cluster registerOnMemberUp {
-    //1
     // Do something when this node become a member-up in a cluster
   }
 
