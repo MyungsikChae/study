@@ -39,13 +39,13 @@ class GameActor extends PersistentActor with ActorLogging {
 
   override def preStart(): Unit = {
     super.preStart()
-    log.info(s" *** preStart!! $internalData")
+    log.info(s" *** preStart!! ${self.path.parent.name} / ${self.path.name} / $internalData")
     registerToMBeanServer(dataObject, objName)
   }
 
   override def postStop(): Unit = {
     super.postStop()
-    log.info(" *** postStop!!")
+    log.info(s" *** postStop!! ${self.path.parent.name} / ${self.path.name}")
     unregisterFromMBeanServer(objName)
   }
 
