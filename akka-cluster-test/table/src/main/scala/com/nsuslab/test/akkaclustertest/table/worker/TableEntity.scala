@@ -13,14 +13,14 @@ class TableEntity extends Actor with ActorLogging {
 
     var service: ActorRef = Actor.noSender
 
-    println(s" *** TableEntity : ${self.path.parent.name} / ${self.path.name}")
-
     override def preStart(): Unit = {
         super.preStart()
+        println(s" *** preStart : ${self.path.parent.name} / ${self.path.name}")
         TableMaintenance.tryFinishShutdown(self.path.parent.name)
     }
     override def postStop(): Unit = {
         super.postStop()
+        println(s" *** postStop : ${self.path.parent.name} / ${self.path.name}")
     }
 
     override def supervisorStrategy =
@@ -46,6 +46,7 @@ class TableEntity extends Actor with ActorLogging {
             }
 
         case ReadyForUpgradeMessage =>
+            println(s" ***** ReadyForUpgradeMessage : ${self.path.parent.name} / ${self.path.name}")
             TableMaintenance.tryStartShutdown(self.path.parent.name)
             self ! PoisonPill
 
