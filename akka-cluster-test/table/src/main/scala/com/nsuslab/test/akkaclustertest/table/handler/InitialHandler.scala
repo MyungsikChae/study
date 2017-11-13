@@ -11,8 +11,6 @@ trait InitialHandler {
     import context.dispatcher
     import TableActor._
 
-    // TEST_STATE
-
     def initialHandler: Receive = {
         case msg: CommandMessage =>
             log.debug(" *** Receive CommandMessage : {}", msg)
