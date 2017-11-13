@@ -9,10 +9,12 @@ class GameEntity extends Actor with ActorLogging {
 
     override def preStart(): Unit = {
         super.preStart()
+        println(s" *** preStart : ${self.path.parent.name} / ${self.path.name}")
     }
 
     override def postStop(): Unit = {
         super.postStop()
+        println(s" *** postStop : ${self.path.parent.name} / ${self.path.name}")
     }
 
     override def receive = {
