@@ -71,13 +71,13 @@ class PlayerActor extends PersistentFSM[PlayerState, PlayerData, PlayerEvent]
 
   override def preStart(): Unit = {
     super.preStart()
-    log.info(s" *** preStart!! $stateName /$stateData")
+    log.info(s" *** preStart!! ${self.path.parent.name} / ${self.path.name} / $stateName /$stateData")
     registerToMBeanServer(dataObject, objName)
   }
 
   override def postStop(): Unit = {
     super.postStop()
-    log.info(" *** postStop!!")
+    log.info(s" *** postStop!! ${self.path.parent.name} / ${self.path.name}")
     if (chatScheduler != null) chatScheduler.cancel()
     unregisterFromMBeanServer(objName)
   }
