@@ -27,6 +27,9 @@ trait CommonHandler {
 
                 case msg: PlayerTerminateMessage =>
                     updateInternalDate(internalData.copy(playerList = internalData.playerList.filter(_.playerId != msg.playerId)))
+
+                case _ =>
+                    log.warning(" *** Receive a unknown System message: {}", msg)
             }
 
         case msg: ChatMessage =>
