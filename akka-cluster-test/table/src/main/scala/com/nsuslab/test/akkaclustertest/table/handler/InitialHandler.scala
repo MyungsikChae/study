@@ -38,6 +38,8 @@ trait InitialHandler {
                     }
 
                     senderActorRef ! CompleteCreatingTableMessage(message.gameId, message.tableId)
+                case _ =>
+                    log.warning(" *** Receive a unknown CommandMessage message (initialHandler) : {}", msg)
             }
 
         case msg: EventMessage =>
@@ -75,6 +77,8 @@ trait InitialHandler {
                             self ! PoisonPill
                         case _ =>
                     }
+                case _ =>
+                    log.warning(" *** Receive a unknown EventMessage message (initialHandler) : {}", msg)
             }
     }
 }
