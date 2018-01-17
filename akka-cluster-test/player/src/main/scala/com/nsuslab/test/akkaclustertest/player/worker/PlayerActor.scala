@@ -17,7 +17,7 @@ import com.nsuslab.test.akkaclustertest.player.handler.{CommonHandler, IdleHandl
 import com.nsuslab.test.akkaclustertest.player.worker.PlayerActor.{PlayerData, PlayerEvent, PlayerState}
 
 import scala.reflect.{ClassTag, classTag}
-
+   
 /* Issue :
  * 1. One of Table nodes was killed by kill -9 command. In this case, Each parts of cluster couldn't handle
  *    process like graceful-shutdown. Then some messages or events don't be buffered by cluster system.
