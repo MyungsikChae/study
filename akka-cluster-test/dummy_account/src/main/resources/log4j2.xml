@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="ManagerConfig" packages="com.nsuslab.test.akkaclustertest.dummy_account">
+    <Properties>
+        <Property name="filename">account</Property>
+        <Property name="accessfile">access</Property>
+        <Property name="baseDir">target/logs</Property>
+    </Properties>
+    <!--<ThresholdFilter level="info"/>-->
+
+    <Appenders>
+        <Console name="STDOUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSSZ} %-5p [%thread] %X{userId} %c - %m%n"/>
+            <!--<ThresholdFilter level="trace"/>-->
+        </Console>
+        <RollingFile name="FILE" fileName="${baseDir}/${filename}.log" filePattern="${baseDir}/${filename}.log.%d{yyyy-MM-dd}.gz">
+            <PatternLayout pattern="#[%d{yyyy-MM-dd HH:mm:ss.SSS}|%-25.25t|%-5level|%logger{50}|%msg|%ex]#%n"/>
+            <!--<ThresholdFilter level="trace"/>-->
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        <RollingFile name="ACCESS" fileName="${baseDir}/${date:yyyy-MM-dd}/${accessfile}.log"
+                     filePattern="${accessfile}.log.%d{yyyyMMdd-HH}.gz">
+            <PatternLayout pattern="#[%d{yyyy-MM-dd HH:mm:ss.SSS}|%-25.25t|%-5level|%msg|%ex]#%n"/>
+            <!--<ThresholdFilter level="trace"/>-->
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="48"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.nsuslab" level="debug">
+            <AppenderRef ref="FILE"/>
+        </Logger>
+    </Loggers>
+
+</Configuration>

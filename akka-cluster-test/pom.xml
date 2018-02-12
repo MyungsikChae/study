@@ -50,5 +50,6 @@
         <module>network</module>
         <module>manager</module>
         <module>scheduler</module>
-    </modules>
+		<module>dummy_account</module>
+	</modules>
 </project>

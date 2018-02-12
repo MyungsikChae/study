@@ -277,3 +277,4 @@ akka-cluster-test/table/target/classes/com/nsuslab/test/akkaclustertest/table/wo
 akka-cluster-test/table/target/classes/com/nsuslab/test/akkaclustertest/table/worker/TableEntity$$anonfun$receive$1.class
 akka-cluster-test/table/target/classes/com/nsuslab/test/akkaclustertest/table/worker/TableEntity$$anonfun$supervisorStrategy$1.class
 akka-cluster-test/table/target/classes/com/nsuslab/test/akkaclustertest/table/worker/TableEntity.class
+akka-cluster-test/.idea/*
