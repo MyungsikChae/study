@@ -2,10 +2,9 @@ package com.nsuslab.test.akkaclustertest.table.worker
 
 import javax.management.ObjectName
 
-import akka.actor.{ActorLogging, ActorRef, PoisonPill}
+import akka.actor.{ActorContext, ActorLogging, ActorRef, PoisonPill}
 import akka.cluster.sharding.ClusterSharding
 import akka.persistence.{PersistentActor, SnapshotSelectionCriteria}
-import com.nsuslab.test.akkaclustertest.common.jmx.JMXMBeanDataObject
 import com.nsuslab.test.akkaclustertest.common.jmx.AkkaJmxRegister.{registerToMBeanServer, unregisterFromMBeanServer}
 import com.nsuslab.test.akkaclustertest.common.message._
 import com.nsuslab.test.akkaclustertest.common.shard.PlayerSharding
@@ -31,12 +30,44 @@ class TableActor extends PersistentActor
 
   override def persistenceId: String = self.path.parent.name + "-" + self.path.name
 
+  trait TableManageMBean {
+    def getActorName: String
+    def getActorPath: String
+    def getActorState: String
+    def getActorDesc: String
+
+    def setActorDesc(desc: String)
+
+    def stopInstance(): Unit
+    def stopParents(): Unit
+    def stopSiblings(): Unit
+    def printText(txt: String): Unit
+  }
+
+  class TableManage(var actorName: String = "",
+          var actorPath: String = "",
+          var actorState: String = "",
+          var actorDesc: String = "")(implicit obj: ActorContext) extends TableManageMBean {
+    override def getActorName = actorName
+    override def getActorPath = actorPath
+    override def getActorState = actorState
+    override def getActorDesc = actorDesc
+    override def setActorDesc(_actorDesc: String): Unit = actorDesc = _actorDesc
+    override def stopInstance(): Unit = obj.self ! PoisonPill
+    override def stopParents(): Unit = obj.parent ! PoisonPill
+    override def stopSiblings(): Unit = obj.actorSelection(obj.parent.path.toString+"/*") ! PoisonPill
+    override def printText(txt: String): Unit = printTestFunc(txt)
+  }
+
   val playerRegion: ActorRef = ClusterSharding(context.system).shardRegion(PlayerSharding.shardName)
 
   var internalData = TableData(0, 0, 0, 0, 0, 0, Initializing)
 
-  val dataObject: JMXMBeanDataObject =
-    JMXMBeanDataObject(self.path.parent.name+"/"+self.path.name, this.getClass.getSimpleName, Idle.toString, internalData.toString)
+//  val dataObject: JMXMBeanDataObject =
+//    JMXMBeanDataObject(self.path.parent.name+"/"+self.path.name, this.getClass.getSimpleName, Idle.toString, internalData.toString)
+
+  val dataObject: TableManage =
+    new TableManage(self.path.parent.name+"/"+self.path.name, this.getClass.getSimpleName, Idle.toString, internalData.toString)
 
   protected val objName: ObjectName = new ObjectName("akkaclustertest.tables", {
     import scala.collection.JavaConverters._
@@ -78,8 +109,8 @@ class TableActor extends PersistentActor
 
   def updateInternalDate(data: TableData): Unit = {
     internalData = data
-    dataObject.stateName = internalData.tableState.toString
-    dataObject.stateData = internalData.toString
+    dataObject.actorState = internalData.tableState.toString
+    dataObject.setActorDesc(internalData.toString)
   }
 
   def preShutdownTable(): Unit ={
@@ -111,6 +142,19 @@ class TableActor extends PersistentActor
   def gamePlayReceive: Receive = gameHandler orElse commonMessageHandler orElse unknownMessageHandler
 
   def receiveCommand: Receive = initialReceive
+
+  private def printTestFunc(txt: String) = {
+    println(self.path.toString)
+    println("--------------------------------------")
+    println(s"|           $txt")
+    println("--------------------------------------")
+    println("--------------------------------------")
+    println(s"|           $txt")
+    println("--------------------------------------")
+    println("--------------------------------------")
+    println(s"|           $txt")
+    println("--------------------------------------")
+  }
 
 }
 

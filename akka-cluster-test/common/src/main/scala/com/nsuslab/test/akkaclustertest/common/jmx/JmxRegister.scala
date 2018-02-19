@@ -256,8 +256,66 @@ case class JMXMBeanManagerObject(var objName: String, var objType: String)(impli
     }
 }
 
+
+trait PlayerManageMBean {
+    def getActorName: String
+    def getActorPath: String
+    def getActorState: String
+    def getActorDesc: String
+
+    def setActorDesc(desc: String)
+
+    def stopInstance(): Unit
+    def stopParents(): Unit
+    def stopSiblings(): Unit
+}
+
+class PlayerManage(var actorName: String = "",
+        var actorPath: String = "",
+        var actorState: String = "",
+        var actorDesc: String = "")(implicit obj: ActorContext) extends PlayerManageMBean {
+    override def getActorName = actorName
+    override def getActorPath = actorPath
+    override def getActorState = actorState
+    override def getActorDesc = actorDesc
+    override def setActorDesc(_actorDesc: String): Unit = actorDesc = _actorDesc
+    override def stopInstance(): Unit = obj.self ! PoisonPill
+    override def stopParents(): Unit = obj.parent ! PoisonPill
+    override def stopSiblings(): Unit = obj.actorSelection(obj.parent.path.toString+"/*") ! PoisonPill
+}
+
 object AkkaJmxRegister {
     private lazy val mbs: MBeanServer = ManagementFactory.getPlatformMBeanServer
+
+//    @throws[InstanceAlreadyExistsException]
+//    @throws[MBeanRegistrationException]
+//    @throws[RuntimeMBeanException]
+//    @throws[RuntimeErrorException]
+//    @throws[NotCompliantMBeanException]
+//    @throws[RuntimeOperationsException]
+//    def registerToMBeanServer(data: DynamicMBean, objName: ObjectName): ObjectInstance = {
+//        mbs.registerMBean(data, objName)
+//    }
+//
+//    @throws[InstanceAlreadyExistsException]
+//    @throws[MBeanRegistrationException]
+//    @throws[RuntimeMBeanException]
+//    @throws[RuntimeErrorException]
+//    @throws[NotCompliantMBeanException]
+//    @throws[RuntimeOperationsException]
+//    def registerToMBeanServer(data: TableManageMBean, objName: ObjectName): ObjectInstance = {
+//        mbs.registerMBean(data, objName)
+//    }
+//
+//    @throws[InstanceAlreadyExistsException]
+//    @throws[MBeanRegistrationException]
+//    @throws[RuntimeMBeanException]
+//    @throws[RuntimeErrorException]
+//    @throws[NotCompliantMBeanException]
+//    @throws[RuntimeOperationsException]
+//    def registerToMBeanServer(data: PlayerManageMBean, objName: ObjectName): ObjectInstance = {
+//        mbs.registerMBean(data, objName)
+//    }
 
     @throws[InstanceAlreadyExistsException]
     @throws[MBeanRegistrationException]
@@ -265,7 +323,7 @@ object AkkaJmxRegister {
     @throws[RuntimeErrorException]
     @throws[NotCompliantMBeanException]
     @throws[RuntimeOperationsException]
-    def registerToMBeanServer(data: DynamicMBean, objName: ObjectName): ObjectInstance = {
+    def registerToMBeanServer(data: Any, objName: ObjectName): ObjectInstance = {
         mbs.registerMBean(data, objName)
     }
 
